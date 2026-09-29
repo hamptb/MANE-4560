@@ -37,10 +37,10 @@ def fk_Dofbot (q):
 
     #set up the position vectors between subsequent frames
     P01 = (l0+l1)*ez # translation between base frame and 1 frame in base frame
-    P12 = np.zeros(3,1) # translation between 1 and 2 frame in 1 frame
+    P12 = np.zeros(3,) # translation between 1 and 2 frame in 1 frame
     P23 = l2*ex # translation between 2 and 3 frame in 2 frame
     P34 = -l3*ez # translation between 3 and 4 frame in 3 frame
-    P45 = np.zeros(3,1) # translation between 4 and 5 frame in 4 frame
+    P45 = np.zeros(3,) # translation between 4 and 5 frame in 4 frame
     P5T = -(l4+l5)*ex # translation between 5 and tool frame in 5 frame
 
     # calculate Rot and Pot
@@ -49,7 +49,15 @@ def fk_Dofbot (q):
     #Pot is a combination of the position vectors. 
     #    Each vector must be represented in the base frame before addition. 
     #    This is achieved using the rotation matrices.
-    Pot = P01 + R01.apply(P12 + R12.apply(P23+ R23.apply(P34 + R34.apply(P45+ R45(P5T)))))
+    Pot = P01 + R01.apply(
+    P12 + R12.apply(
+        P23 + R23.apply(
+            P34 + R34.apply(
+                P45 + R45.apply(P5T)
+            )
+        )
+    )
+)
 
     return Rot, Pot
 
@@ -79,7 +87,9 @@ def rotz(theta):
     Rz = R.from_euler('z', theta, degrees = True )
     return Rz
 
-print(fk_Dofbot([90, 90, 90, 90, 90]))
+print(fk_Dofbot(np.array([90, 90, 90, 90, 90])))
+
+
 
 
 
