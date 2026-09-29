@@ -58,7 +58,7 @@ def fk_Dofbot (q):
         )
     )
 )
-
+    Pot = Pot.reshape((3,1))
     return Rot, Pot
 
 
@@ -87,7 +87,7 @@ def rotz(theta):
     Rz = R.from_euler('z', theta, degrees = True )
     return Rz
 
-print(fk_Dofbot(np.array([90, 90, 90, 90, 90])))
+#print(fk_Dofbot(np.array([90, 90, 90, 90, 90])))
 
 
 
